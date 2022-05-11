@@ -13,7 +13,11 @@ from concurrent.futures import ThreadPoolExecutor
 
 # These require pip installs
 from bs4 import BeautifulSoup, SoupStrainer
-import browser_cookie3
+
+# This is a hack to use a local file for browser_cookies3, fixed for windows
+#import browser_cookie3
+sys.path.insert(1, os.path.dirname(__file__))
+import browser_cookie3_patched as browser_cookie3
 from tqdm import tqdm
 
 USER_URL = 'https://bandcamp.com/{}'

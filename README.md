@@ -1,3 +1,7 @@
+# THIS IS A TEST BRANCH
+
+This branch exists to locally load a patched copy of browser_cookie3 until it is patched upstream.
+
 # bandcamp-downloader
 Download your Bandcamp collection using this python script.
 
