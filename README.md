@@ -13,12 +13,54 @@ Albums will be downloaded into their zip files and singles will just be plain fi
 
 By default, files are downloaded in mp3-320 format, but that can be changed with the `--format`/`-f` flag.
 
-## Requirements
-- Python3
-- [BeautifulSoup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) `pip install bs4`
-- [requests](https://github.com/psf/requests) `pip install requests`
-- [browser_cookie3](https://github.com/borisbabic/browser_cookie3) `pip install browser-cookie3`
-- [TQDM](https://tqdm.github.io/) `pip install tqdm`
+## Known Issues
+
+### Failure to read cookies on Windows for Chrome/Chromium/Brave
+
+This is a known issue with the [browser-cookie3](https://github.com/borisbabic/browser_cookie3) module. I've submitted a PR to fix it [here](https://github.com/borisbabic/browser_cookie3/pull/122). In the meantime, firefox should still work fine, and I have created a branch [here](https://github.com/easlice/bandcamp-downloader/tree/with-local-browser-cookies3-patch) with a patched browser_cookie3 module that should work.
+
+### Running the script on WSL crashes with a `DBUS_SESSION_BUS_ADDRESS` error
+
+This is seems to be a WSL issue. The browser_cookie3 module  tries to get a secret from your keyring via dbus, but WSL may not have dbus installed, or may not have it set up as expected. As such, you may see the following error:
+
+`secretstorage.exceptions.SecretServiceNotAvailableException: Environment variable DBUS_SESSION_BUS_ADDRESS is unset`
+
+Please either check your WSL dbus installation/configuration, or run the script nativity on windows.
+
+## Manual Setup
+
+Install the script dependencies by running:
+
+```
+pip install -r requirements.txt
+```
+
+Run the program:
+
+```
+./bandcamp-downloader.py [arguments]
+```
+
+## Setup via Poetry
+
+Install requirements using [Python Poetry](https://python-poetry.org/). [Installation instructions here](https://python-poetry.org/docs/#installation).
+
+```
+poetry install
+```
+
+Run the script within the poetry shell:
+
+```
+poetry shell
+python bandcamp-downloader.py [arguments]
+```
+
+or directly through `poetry run`:
+
+```
+poetry run python bandcamp-downloader.py [arguments]
+```
 
 ## Usage
 ```
@@ -60,6 +102,14 @@ optional arguments:
   --verbose, -v
 ```
 
+## Development and Contributing
+
+When modifiying required packages, please:
+
+* Add to Poetry (`poetry add`)
+* Then update the `requirements.txt` (`poetry run pip freeze > requirements.txt`)
+* Commit all updated files
+
 ## Notes
 
 If things are not working correctly, but are also not spitting out errors, try setting `-p 1` to disable parallelism. If multi-threading is used, threads won't show crashes/stack traces.
@@ -67,6 +117,3 @@ If things are not working correctly, but are also not spitting out errors, try s
 If you have a logged in session in the browser, have used the `--browser`/`-b` flag correctly, and still are being told that the script isn't finding any albums, check out the page for [browser_cookie3](https://github.com/borisbabic/browser_cookie3), you might need to do some configuring in your browser to make the cookies available to the script.
 
 If you are downloading your collection in multiple formats, the script can't tell if an already downloaded zip file is the same format or not, and will happily overwrite it. So make sure to use different directories for different formats, either by running the script somewhere else or by supplying directories to the `--directory`/`-d` flag.
-
-## TODO
-- Allow filtering by artist?
