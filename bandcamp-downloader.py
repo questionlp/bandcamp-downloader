@@ -405,6 +405,8 @@ def sanitize_filename(_path: str) -> str:
         new_path += _path[0:3]
         search_path = _path[3:]
     new_path += SANATIZE_PATH_WINDOWS_REGEX.sub("-", search_path)
+    new_path = new_path.strip()
+    new_path = new_path.rstrip(".")
     return new_path.replace("/", "-")
 
 
