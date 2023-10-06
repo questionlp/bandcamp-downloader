@@ -12,3 +12,7 @@ browser-cookie3 = "^0.14.0"
 tqdm = "^4.64.0"
 
 [tool.poetry.dev-dependencies]
+
+[tool.black]
+required-version = "23.9.1"
+target-version = ["py38", "py39", "py310", "py311"]
