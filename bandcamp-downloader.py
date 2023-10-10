@@ -53,10 +53,8 @@ TRACK_INFO_KEYS = ["item_id", "artist", "title"]
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Download your collection from bandcamp. Requires a logged in session in a supported browser so that the browser cookies can be used to authenticate with bandcamp. Albums are saved into directories named after their artist. Already existing albums will have their file size compared to what is expected and re-downloaded if the sizes differ. Otherwise already existing albums will not be re-downloaded."
-    )
-    parser.add_argument("username", type=str, help="Your bandcamp username")
+    parser = argparse.ArgumentParser(description = 'Download your collection from bandcamp. Requires a logged in session in a supported browser so that the browser cookies can be used to authenticate with bandcamp. Albums are saved into directories named after their artist. Already existing albums will have their file size compared to what is expected and re-downloaded if the sizes differ. Otherwise already existing albums will not be re-downloaded.')
+    parser.add_argument('username', type=str, help='Your bandcamp username, as it appears at the end of your bandcamp collection url, I.E. bandcamp.com/user_name')
     parser.add_argument(
         "--browser",
         "-b",
@@ -80,11 +78,10 @@ def main() -> int:
         ),
     )
     parser.add_argument(
-        "--format",
-        "-f",
-        default="mp3-320",
-        choices=SUPPORTED_FILE_FORMATS,
-        help="What format do download the songs in. Default is 'mp3-320'.",
+        '--format', '-f',
+        default = 'mp3-320',
+        choices = SUPPORTED_FILE_FORMATS,
+        help = 'What format to download the songs in. Default is \'mp3-320\'.'
     )
     parser.add_argument(
         "--parallel-downloads",
@@ -215,7 +212,12 @@ def get_download_links_for_user(_user: str) -> [str]:
             )
         )
         return
-    data = json.loads(html.unescape(div.get("data-blob")))
+    data = json.loads(html.unescape(div.get('data-blob')))
+    if 'collection_count' not in data:
+        print('ERROR: No collection info for user {}.\nPlease double check that your given username is correct.\nIt should be given exactly as it appears at the end of your bandcamp user url.\nFor example: bandcamp.com/user_name'.format(
+            _user
+        ))
+        exit(2)
 
     user_info = {
         "collection_count": data["collection_count"],
