@@ -38,7 +38,7 @@ setup(
     keywords="bandcamp,music",  # Optional
     # When your source code is in a subdirectory under the project root, e.g.
     # `src/`, it is necessary to specify the `package_dir` argument.
-    #package_dir={"": "src"},  # Optional
+    # package_dir={"": "src"},  # Optional
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
     #
@@ -48,7 +48,7 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    #packages=find_packages(where="src"),  # Required
+    # packages=find_packages(where="src"),  # Required
     # Specify which Python versions you support. In contrast to the
     # 'Programming Language' classifiers above, 'pip install' will check this
     # and refuse to install the project if the version does not match. See
@@ -74,7 +74,5 @@ setup(
         "Bug Reports": "https://github.com/easlice/bandcamp-downloader/issues",
         "Source": "https://github.com/easlice/bandcamp-downloader",
     },
-    scripts = [
-        'bandcamp-downloader.py'
-    ],
+    scripts=["bandcamp-downloader.py"],
 )
